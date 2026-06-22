@@ -1,8 +1,10 @@
+import { EXTRA_TRANSFORMS } from './transforms-extra.js';
+
 // transform.js — per-dot transformation math for Glass patterns
 // Each regime defines a function (x, y, strength, angle) → (x', y')
 // Coordinates are normalised — centre = (0,0), half-width = 1
 
-export const TRANSFORMS = {
+const BASE_TRANSFORMS = {
   rotation(x, y, strength, angle) {
     // Rotate about origin by angle * strength (radians)
     const theta = angle * strength * Math.PI * 2;
@@ -16,7 +18,6 @@ export const TRANSFORMS = {
   },
   radial(x, y, strength, angle) {
     // Tangential displacement (spiral Glass pattern)
-    // (x', y') = (x, y) + k * (-y, x) / r
     const r = Math.sqrt(x*x + y*y) + 0.0001;
     const k = angle * strength * 0.5;
     return [x + k * (-y) / r, y + k * x / r];
@@ -39,7 +40,8 @@ export const TRANSFORMS = {
     const r = Math.sqrt(rx*rx + ry*ry) + 0.0001;
     const k = strength * 0.15;
     return [rx + k * (-ry) / r, ry + k * rx / r];
-  },
+  }
 };
 
+export const TRANSFORMS = { ...BASE_TRANSFORMS, ...EXTRA_TRANSFORMS };
 export const TRANSFORM_NAMES = Object.keys(TRANSFORMS);
