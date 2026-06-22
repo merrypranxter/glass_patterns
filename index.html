@@ -9,7 +9,7 @@
     body { background: #000; overflow: hidden; font-family: 'Courier New', monospace; }
     canvas { display: block; width: 100vw; height: 100vh; }
     #ui {
-      position: fixed; top: 0; right: 0; width: 228px;
+      position: fixed; top: 0; right: 0; width: 260px; max-height: 100vh; overflow-y: auto;
       background: rgba(0,0,0,0.82); backdrop-filter: blur(8px);
       border-left: 1px solid rgba(255,255,255,0.06);
       padding: 13px; color: rgba(255,255,255,0.8);
@@ -32,9 +32,9 @@
     .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; margin-top: 3px; }
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 3px; }
     .btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.4); padding: 5px 3px; font-size: 9px;
-      cursor: pointer; transition: all 0.1s; font-family: inherit; line-height: 1.3;
-      letter-spacing: 0.04em; }
+      color: rgba(255,255,255,0.4); padding: 5px 3px; font-size: 8px;
+      cursor: pointer; transition: all 0.1s; font-family: inherit; line-height: 1.25;
+      letter-spacing: 0.02em; overflow: hidden; text-overflow: ellipsis; }
     .btn:hover { background: rgba(255,255,255,0.09); color: #fff; }
     .btn.active { background: rgba(255,255,255,0.11); border-color: rgba(255,255,255,0.26); color: #fff; }
     .fps { position: fixed; bottom: 8px; left: 8px; font-size: 9px;
@@ -43,14 +43,16 @@
       font-size: 9px; color: rgba(255,255,255,0.12); letter-spacing: 0.09em;
       white-space: nowrap; z-index: 10; }
     #detect-hint { font-size: 9px; color: rgba(160,255,160,0.4); margin-top: 5px; min-height: 13px; }
+    #ui::-webkit-scrollbar { width: 6px; }
+    #ui::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.11); }
   </style>
 </head>
 <body>
   <canvas id="gl"></canvas>
   <div id="ui">
-    <h2>Glass Patterns</h2>
+    <h2>Glass Patterns · Correlation Lab</h2>
 
-    <div class="slbl">Transform</div>
+    <div class="slbl">Base Transforms</div>
     <div class="grid3">
       <button class="btn active" data-xf="rotation">rotation</button>
       <button class="btn" data-xf="scaling">scaling</button>
@@ -60,10 +62,34 @@
       <button class="btn" data-xf="mixed">mixed</button>
     </div>
 
+    <div class="slbl">Mutant Transforms</div>
+    <div class="grid3">
+      <button class="btn" data-xf="pinwheel">pinwheel</button>
+      <button class="btn" data-xf="black_hole">black hole</button>
+      <button class="btn" data-xf="lens_warp">lens</button>
+      <button class="btn" data-xf="fisheye_inverse">fisheye</button>
+      <button class="btn" data-xf="wave_shear">wave shear</button>
+      <button class="btn" data-xf="lissajous_drift">lissajous</button>
+      <button class="btn" data-xf="hyperbolic_saddle">saddle</button>
+      <button class="btn" data-xf="mobius_fold">mobius</button>
+      <button class="btn" data-xf="kaleidoscope_nudge">kaleido</button>
+      <button class="btn" data-xf="quasicrystal_pull">quasi</button>
+      <button class="btn" data-xf="penrose_slip">penrose</button>
+      <button class="btn" data-xf="cellular_jitter">cellular</button>
+      <button class="btn" data-xf="voronoi_crackle">voronoi</button>
+      <button class="btn" data-xf="lemniscate_flow">infinity</button>
+      <button class="btn" data-xf="logarithmic_spiral">log spiral</button>
+      <button class="btn" data-xf="fourier_braid">fourier</button>
+      <button class="btn" data-xf="moire_slide">moire</button>
+      <button class="btn" data-xf="reaction_diffusion_hint">reaction</button>
+      <button class="btn" data-xf="orbit_trap">orbit</button>
+      <button class="btn" data-xf="wrong_physics_fold">wrong</button>
+    </div>
+
     <div class="slbl">Dot Field</div>
     <div class="param">
       <label>dot count <span id="v-dot_count">400</span></label>
-      <input type="range" id="dot_count" min="50" max="800" step="10" value="400">
+      <input type="range" id="dot_count" min="50" max="1600" step="10" value="400">
     </div>
     <div class="param">
       <label>dot radius <span id="v-dot_radius">2.5</span></label>
@@ -129,7 +155,7 @@
   </div>
 
   <div class="fps" id="fps">-- fps</div>
-  <div id="tagline">two fields · one transformed · global form from randomness</div>
+  <div id="tagline">two fields · hidden correlation · emergent global form</div>
 
   <script type="module" src="src/js/main.js"></script>
 </body>
